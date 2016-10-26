@@ -1,0 +1,4 @@
+#!/bin/sh
+
+bundle exec cucumber --strict --order random
+bundle exec rubocop -DSE
