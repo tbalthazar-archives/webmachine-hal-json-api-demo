@@ -11,3 +11,7 @@ end
 When(/^the client sends a GET request to the root URL$/) do
   get '/'
 end
+
+When(/^the client sends a valid request to create a token for Alice$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end

@@ -1,3 +1,8 @@
+require_relative '../../db/setup'
+
+DB = Sequel.connect('sqlite://db/test.db')
+Database.setup
+
 require 'rack/test'
 require 'minitest/spec'
 require 'webmachine/adapters/rack'

@@ -15,4 +15,5 @@ group :test do
   gem 'cucumber'
   gem 'rack-test'
   gem 'minitest'
+  gem 'database_cleaner'
 end
