@@ -1,7 +1,7 @@
-require_relative '../../db/setup'
+require_relative '../../db/schema'
 
 DB = Sequel.connect('sqlite://db/test.db')
-Database.setup
+WebmachineHALJSONAPIDemo::Database.setup
 
 require 'rack/test'
 require 'minitest/spec'

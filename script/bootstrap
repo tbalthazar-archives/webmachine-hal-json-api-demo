@@ -1,0 +1,19 @@
+#!/bin/sh
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+echo "==> Installing Bundler…"
+gem install bundler
+
+echo "==> Installing gem dependencies…"
+bundle check || bundle install
+
+echo "==> Creating database…"
+bundle exec ruby db/create.rb
+
+echo "==> Seeding database…"
+bundle exec ruby db/seed.rb
+
+echo "==> Done!"
