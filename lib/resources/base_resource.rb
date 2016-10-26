@@ -3,7 +3,7 @@ class BaseResource < Webmachine::Resource
     [['application/hal+json', :to_json]]
   end
 
-  def is_authorized?(authorization_header = nil)
+  def is_authorized?(_authorization_header = nil)
     false
   end
 end

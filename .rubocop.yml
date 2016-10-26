@@ -1,0 +1,10 @@
+AllCops:
+  Exclude:
+    - db/**
+    - config/**
+    - script/**
+Style/PredicateName:
+  Exclude:
+    - lib/resources/**
+Documentation:
+  Enabled: false
