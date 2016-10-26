@@ -1,3 +1,4 @@
 Given(/^the user "([^"]*)" exists$/) do |user|
-  User.create(email: 'alice@example.org', password: 'alice-pwd') 
+  u = user.downcase
+  User.create(email: "#{u}@example.org", password: "#{u}-pwd")
 end

@@ -13,5 +13,8 @@ When(/^the client sends a GET request to the root URL$/) do
 end
 
 When(/^the client sends a valid request to create a token for Alice$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  post '/tokens', {
+    email: 'alice@example.com',
+    password: 'alice-pwd'
+  }.to_json
 end
