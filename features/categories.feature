@@ -17,3 +17,17 @@ Feature: Categories
     When the client sends a request to list categories
     Then the status code should be 401
     And the response body should be empty
+
+  Scenario: Get category
+    Given the client is signed in as "Alice"
+    And the "Tech" category exists
+    And the client provides valid media type headers
+    When the client sends a request to get the "Tech" category
+    Then the status code should be 200
+    And the body should contain the "Tech" category
+
+  Scenario: Get category that does not exist
+    Given the client is signed in as "Alice"
+    And the client provides valid media type headers
+    When the client sends a request to get a category that does not exist
+    Then the status code should be 404

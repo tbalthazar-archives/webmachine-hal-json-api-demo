@@ -5,5 +5,9 @@ module WebmachineHALJSONAPIDemo
     factory :category, class: Category do
       sequence(:name) { |n| "Category #{n}" }
     end
+
+    factory :tech, class: Category do
+      name 'Tech'
+    end
   end
 end

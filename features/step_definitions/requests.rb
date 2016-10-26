@@ -47,3 +47,16 @@ end
 When(/^the client sends a request to list categories$/) do
   get '/categories'
 end
+
+When(/^the client sends a request to get the "([^"]*)" category$/) do |category|
+  name = attributes_for(category.downcase)[:name]
+  c = WebmachineHALJSONAPIDemo::Category.where(name: name).first
+
+  get "/categories/#{c.id}"
+end
+
+When(/^the client sends a request to get a category that does not exist$/) do
+  max_id = DB[:categories].max(:id)
+  max_id = max_id.nil? ? 1 : max_id + 1
+  get "/categories/#{max_id}"
+end

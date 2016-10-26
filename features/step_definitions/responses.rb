@@ -21,3 +21,11 @@ Then(/^the body should contain (\d+) categories$/) do |nb_categories|
   refute_nil body['_links']
   assert_equal nb_categories.to_i, body['_links']['categories'].count
 end
+
+Then(/^the body should contain the "([^"]*)" category$/) do |category|
+  name = attributes_for(category.downcase)[:name]
+  c = WebmachineHALJSONAPIDemo::Category.where(name: name).first
+  body = JSON.parse(last_response.body)
+  assert_equal c.id, body['id']
+  assert_equal c.name, body['name']
+end

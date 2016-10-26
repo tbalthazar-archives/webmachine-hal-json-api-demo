@@ -3,3 +3,7 @@ Given(/^(\d+) categories exist$/) do |nb_cat|
     create(:category)
   end
 end
+
+Given(/^the "([^"]*)" category exists$/) do |category|
+  create(category.downcase)
+end
