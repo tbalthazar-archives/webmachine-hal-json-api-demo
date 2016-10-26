@@ -6,4 +6,11 @@ class BaseResource < Webmachine::Resource
   def is_authorized?(_authorization_header = nil)
     false
   end
+
+  private
+
+  def params
+    body = request.body.to_s
+    body.nil? ? {} : JSON.parse(body)
+  end
 end

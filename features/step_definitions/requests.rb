@@ -14,7 +14,7 @@ end
 
 When(/^the client sends a valid request to create a token for Alice$/) do
   post '/tokens', {
-    email: 'alice@example.com',
+    email: 'alice@example.org',
     password: 'alice-pwd'
   }.to_json
 end

@@ -4,5 +4,6 @@ require 'webmachine_hal_json_api_demo'
 App = Webmachine::Application.new do |app|
   app.routes do
     add [], APIResource
+    add ['tokens'], TokensResource
   end
 end
