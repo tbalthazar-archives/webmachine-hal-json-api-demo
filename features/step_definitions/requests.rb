@@ -19,3 +19,18 @@ When(/^the client sends a valid request to create a token for "([^"]*)"$/) do |u
     password: u.password
   }.to_json
 end
+
+When(/^the client sends a request to create a token for "([^"]*)" with a wrong password$/) do |user|
+  u = build(user.downcase)
+  post '/tokens', {
+    email: u.email,
+    password: u.password + 'wrong'
+  }.to_json
+end
+
+When(/^the client sends a request to create a token for a user that does not exist$/) do
+  post '/tokens', {
+    email: 'doesnotexist@example.org',
+    password: 'doesnotexist-pwd'
+  }.to_json
+end

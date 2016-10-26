@@ -1,5 +1,9 @@
-Then(/^the response boddy should be:$/) do |body|
+Then(/^the response body should be:$/) do |body|
   assert_equal JSON.parse(body), JSON.parse(last_response.body)
+end
+
+Then(/^the response body should be empty$/) do
+  assert last_response.body.empty?
 end
 
 Then(/^the status code should be (\d+)$/) do |status|

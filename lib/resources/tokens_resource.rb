@@ -4,7 +4,8 @@ class TokensResource < BaseResource
   end
 
   def is_authorized?(_authorization_header = nil)
-    true
+    @user = User.where(email: params['email']).first
+    @user && @user.password == params['password']
   end
 
   def post_is_create?
@@ -12,8 +13,7 @@ class TokensResource < BaseResource
   end
 
   def resource_exists?
-    @user = User.where(email: params['email']).first
-    @user && @user.password == params['password']
+    @user
   end
 
   def process_post

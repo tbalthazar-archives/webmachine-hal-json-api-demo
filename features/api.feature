@@ -6,7 +6,7 @@ Feature: API
   Scenario: Get the API index
     When the client provides valid media type headers
     And the client sends a GET request to the root URL
-    Then the response boddy should be:
+    Then the response body should be:
       """json
       {
         "_links": {
