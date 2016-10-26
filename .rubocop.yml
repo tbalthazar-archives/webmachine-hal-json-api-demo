@@ -6,5 +6,8 @@ AllCops:
 Style/PredicateName:
   Exclude:
     - lib/resources/**
+Metrics/LineLength:
+  Exclude:
+    - features/step_definitions/**
 Documentation:
   Enabled: false

@@ -12,9 +12,10 @@ When(/^the client sends a GET request to the root URL$/) do
   get '/'
 end
 
-When(/^the client sends a valid request to create a token for Alice$/) do
+When(/^the client sends a valid request to create a token for "([^"]*)"$/) do |user|
+  u = build(user.downcase)
   post '/tokens', {
-    email: 'alice@example.org',
-    password: 'alice-pwd'
+    email: u.email,
+    password: u.password
   }.to_json
 end

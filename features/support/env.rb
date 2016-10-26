@@ -6,6 +6,7 @@ Database.setup
 require 'rack/test'
 require 'minitest/spec'
 require 'webmachine/adapters/rack'
+require 'factory_girl'
 require_relative '../../app'
 
 module AppHelper
@@ -24,6 +25,7 @@ class MinitestWorld
 end
 
 World Rack::Test::Methods, AppHelper
+World(FactoryGirl::Syntax::Methods)
 World do
   MinitestWorld.new
 end
