@@ -16,6 +16,8 @@ Then(/^the body should contain a valid token$/) do
   refute_equal body['token'], ''
 end
 
-Then(/^the body should contain (\d+) categories$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
+Then(/^the body should contain (\d+) categories$/) do |nb_categories|
+  body = JSON.parse(last_response.body)
+  refute_nil body['_links']
+  assert_equal nb_categories.to_i, body['_links']['categories'].count
 end
