@@ -16,3 +16,9 @@ Feature: API
         }
       }
       """
+    And the status code should be 200
+
+  Scenario: Get the API index with a wrong Accept header
+    When the client provides invalid media type headers
+    And the client sends a GET request to the root URL
+    Then the status code should be 406
