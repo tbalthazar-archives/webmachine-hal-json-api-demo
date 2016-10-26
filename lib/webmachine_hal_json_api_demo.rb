@@ -13,3 +13,5 @@ require 'resources/categories_resource'
 
 require 'models/user'
 require 'models/category'
+
+require 'representers/categories_representer'

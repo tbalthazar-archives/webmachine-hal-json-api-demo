@@ -5,8 +5,13 @@ module WebmachineHALJSONAPIDemo
     end
 
     def resource_exists?
-      # @user
-      true
+      @categories = Category.all
+    end
+
+    private
+
+    def to_json
+      extend(CategoriesRepresenter).to_json
     end
   end
 end
