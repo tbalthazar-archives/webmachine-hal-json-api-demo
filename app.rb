@@ -5,5 +5,6 @@ App = Webmachine::Application.new do |app|
   app.routes do
     add [], WebmachineHALJSONAPIDemo::APIResource
     add ['tokens'], WebmachineHALJSONAPIDemo::TokensResource
+    add ['categories'], WebmachineHALJSONAPIDemo::CategoriesResource
   end
 end

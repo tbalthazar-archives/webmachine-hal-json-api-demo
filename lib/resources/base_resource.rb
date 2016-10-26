@@ -4,8 +4,11 @@ module WebmachineHALJSONAPIDemo
       [['application/hal+json', :to_json]]
     end
 
-    def is_authorized?(_authorization_header = nil)
-      false
+    def is_authorized?(authorization_header = nil)
+      return false unless authorization_header =~ /^Bearer .+/
+
+      token = authorization_header.split.last
+      !User.where(token: token).empty?
     end
 
     private

@@ -10,5 +10,11 @@ module Database
       String :password
       String :token
     end
+
+    DB.drop_table? :categories
+    DB.create_table :categories do
+      primary_key :id
+      String :name, unique: true
+    end
   end
 end

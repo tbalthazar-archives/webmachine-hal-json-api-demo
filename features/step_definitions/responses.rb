@@ -15,3 +15,7 @@ Then(/^the body should contain a valid token$/) do
   refute_nil body['token']
   refute_equal body['token'], ''
 end
+
+Then(/^the body should contain (\d+) categories$/) do |arg1|
+  pending # Write code here that turns the phrase above into concrete actions
+end
