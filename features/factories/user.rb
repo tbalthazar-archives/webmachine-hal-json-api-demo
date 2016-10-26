@@ -1,8 +1,10 @@
-FactoryGirl.define do
-  to_create(&:save)
+module WebmachineHALJSONAPIDemo
+  FactoryGirl.define do
+    to_create(&:save)
 
-  factory :alice, class: User do
-    email 'alice@example.org'
-    password 'alice-pwd'
+    factory :alice, class: User do
+      email 'alice@example.org'
+      password 'alice-pwd'
+    end
   end
 end
