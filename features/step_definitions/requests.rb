@@ -85,3 +85,13 @@ end
 When(/^the client sends a request to list readers$/) do
   get '/readers'
 end
+
+When(/^the client sends a request to grant "([^"]*)" access to "([^"]*)"$/) do |reader, article|
+  email = attributes_for(reader.downcase)[:email]
+  r = WebmachineHALJSONAPIDemo::Reader.where(email: email).first
+  title = attributes_for(article.downcase)[:title]
+  a = WebmachineHALJSONAPIDemo::Article.where(title: title).first
+  post "/articles/#{a.id}/access", {
+    reader_id: r.id
+  }.to_json
+end

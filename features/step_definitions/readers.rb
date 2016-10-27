@@ -3,3 +3,7 @@ Given(/^there are (\d+) readers$/) do |nb_readers|
     create(:reader)
   end
 end
+
+Given(/^the "([^"]*)" reader exists$/) do |reader|
+  create(reader.downcase)
+end

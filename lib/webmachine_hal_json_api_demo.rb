@@ -12,11 +12,13 @@ require 'resources/category_resource'
 require 'resources/articles_resource'
 require 'resources/article_resource'
 require 'resources/readers_resource'
+require 'resources/access_resource'
 
 require 'models/user'
 require 'models/category'
 require 'models/article'
 require 'models/reader'
+require 'models/access'
 
 require 'representers/category_representer'
 require 'representers/categories_representer'
