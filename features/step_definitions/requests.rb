@@ -72,3 +72,12 @@ When(/^the client sends a request to list articles in the "([^"]*)" category$/) 
   c = WebmachineHALJSONAPIDemo::Category.where(name: name).first
   get "/categories/#{c.id}/articles"
 end
+
+When(/^the client sends a request to create an article in the "([^"]*)" category$/) do |category|
+  name = attributes_for(category.downcase)[:name]
+  c = WebmachineHALJSONAPIDemo::Category.where(name: name).first
+  post "/categories/#{c.id}/articles", {
+    title: 'Linux on the desktop is a thing',
+    link: 'https://example.org/tech/linux-on-the-desktop-is-a-thing'
+  }.to_json
+end
