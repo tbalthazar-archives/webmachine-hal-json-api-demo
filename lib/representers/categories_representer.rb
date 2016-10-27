@@ -7,7 +7,7 @@ module WebmachineHALJSONAPIDemo
 
     link(:self) { '/categories' }
     links(:categories) do
-      @categories.map { |o| { href: "/categories/#{o.id}" } }
+      @categories.map { |c| { href: "/categories/#{c.id}" } }
     end
   end
 end

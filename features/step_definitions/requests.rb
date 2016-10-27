@@ -60,3 +60,15 @@ When(/^the client sends a request to get a category that does not exist$/) do
   max_id = max_id.nil? ? 1 : max_id + 1
   get "/categories/#{max_id}"
 end
+
+When(/^the client sends a request to get the "([^"]*)" article$/) do |article|
+  title = attributes_for(article.downcase)[:title]
+  a = WebmachineHALJSONAPIDemo::Article.where(title: title).first
+  get "/articles/#{a.id}"
+end
+
+When(/^the client sends a request to list articles in the "([^"]*)" category$/) do |category|
+  name = attributes_for(category.downcase)[:name]
+  c = WebmachineHALJSONAPIDemo::Category.where(name: name).first
+  get "/categories/#{c.id}/articles"
+end

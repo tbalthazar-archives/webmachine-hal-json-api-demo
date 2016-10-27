@@ -1,5 +1,5 @@
 Feature: Categories
-  In order to to categorize the articles
+  In order to categorize the articles
   As a user
   I need to interact with the categories
 

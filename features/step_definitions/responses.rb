@@ -29,3 +29,17 @@ Then(/^the body should contain the "([^"]*)" category$/) do |category|
   assert_equal c.id, body['id']
   assert_equal c.name, body['name']
 end
+
+Then(/^the body should contain the "([^"]*)" article$/) do |article|
+  title = attributes_for(article.downcase)[:title]
+  a = WebmachineHALJSONAPIDemo::Article.where(title: title).first
+  body = JSON.parse(last_response.body)
+  assert_equal a.id, body['id']
+  assert_equal a.title, body['title']
+  assert_equal a.link, body['link']
+end
+
+Then(/^the body should contain (\d+) articles$/) do |nb_articles|
+  body = JSON.parse(last_response.body)
+  assert_equal nb_articles.to_i, body['articles'].count
+end
