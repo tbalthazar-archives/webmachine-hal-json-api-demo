@@ -14,3 +14,4 @@ WebmachineHALJSONAPIDemo::Article.create(
   link: 'https://example.com/tech/linux-on-the-desktop-is-a-thing',
   category_id: tech.id
 )
+WebmachineHALJSONAPIDemo::Reader.create(name: 'Jane', email: 'jane@example.org')

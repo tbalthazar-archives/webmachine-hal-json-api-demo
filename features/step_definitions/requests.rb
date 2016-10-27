@@ -81,3 +81,7 @@ When(/^the client sends a request to create an article in the "([^"]*)" category
     link: 'https://example.org/tech/linux-on-the-desktop-is-a-thing'
   }.to_json
 end
+
+When(/^the client sends a request to list readers$/) do
+  get '/readers'
+end
