@@ -15,29 +15,76 @@ class Client
     @api.get
   end
 
-  def token
-    resp = @api.tokens.post(email: 'alice@example.org', password: 'alice-pwd')
-    @token = resp.body['token']
-    @api.headers = @api.headers.merge('Authorization' => "Bearer #{@token}")
+  def login
+    email = 'alice@example.org'
+    pwd = 'alice-pwd'
+
+    puts "Logging in with #{email}/#{pwd} ..."
+
+    resp = @api.tokens.post(email: email, password: pwd)
+    token = resp.body['token']
+
+    File.open(token_path, 'w') do |f|
+      f.write(token)
+    end
+
+    puts "Token has been stored in #{token_path}"
   end
 
   def categories
-    puts '--- list of categories: '
+    set_authorization_header
+    puts '--- list of categories:'
     @api.categories.categories.each do |c|
       puts "- #{c.name}"
     end
   end
 
-  def category
+  def first_category
+    set_authorization_header
     c = @api.categories.find(1).first
     puts "- first category name is: #{c.name}"
 
     n = c.next.get
     puts "- next category name is: #{n.name}"
   end
+
+  private
+
+  def token_path
+    Dir.pwd + '/.token'
+  end
+
+  def set_authorization_header
+    token = File.open(token_path, &:gets)
+    # token = File.open(token_path) do |f|
+    #   f.gets
+    # end
+    @api.headers = @api.headers.merge('Authorization' => "Bearer #{token}")
+  rescue
+    puts "Error while trying to read token in #{token_path}."
+    puts "Please try to run the 'login' command."
+  end
 end
 
-client = Client.new
-client.token
-client.categories
-client.category
+AVAILABLE_CMDS = %w(help login categories first_category).freeze
+
+cmd = ARGV[0]
+if AVAILABLE_CMDS.include?(cmd)
+  if cmd == 'help'
+    puts 'help here'
+  else
+    begin
+      client = Client.new
+      client.send(cmd)
+    rescue StandardError => e
+      puts "Error: #{e.message}"
+    end
+  end
+else
+  puts "'#{cmd}' not in #{AVAILABLE_CMDS}"
+end
+
+# client = Client.new
+# client.token
+# client.categories
+# client.category
