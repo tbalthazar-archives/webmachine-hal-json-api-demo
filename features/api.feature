@@ -10,9 +10,9 @@ Feature: API
       """json
       {
         "_links": {
-          "self": {
-            "href": "http://example.org/"
-          }
+          "self": {"href": "http://example.org/"},
+          "tokens": {"href": "http://example.org/tokens"},
+          "categories": {"href": "http://example.org/categories"}
         }
       }
       """

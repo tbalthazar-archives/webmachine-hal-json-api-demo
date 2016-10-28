@@ -2,12 +2,12 @@ module WebmachineHALJSONAPIDemo
   module CategoriesRepresenter
     include Roar::JSON::HAL
 
-    collection :categories, getter: proc { @categories },
-                            decorator: CategoryRepresenter
-
     link(:self) { '/categories' }
-    links(:categories) do
-      @categories.map { |c| { href: "/categories/#{c.id}" } }
+    link(:find) do
+      { href: '/categories{?id}', templated: true }
     end
+    collection :categories, getter: proc { @categories },
+                            decorator: CategoryRepresenter,
+                            embedded: true
   end
 end

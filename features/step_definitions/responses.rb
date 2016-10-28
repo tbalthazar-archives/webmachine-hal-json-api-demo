@@ -18,8 +18,8 @@ end
 
 Then(/^the body should contain (\d+) categories$/) do |nb_categories|
   body = JSON.parse(last_response.body)
-  refute_nil body['_links']
-  assert_equal nb_categories.to_i, body['_links']['categories'].count
+  refute_nil body['_embedded']
+  assert_equal nb_categories.to_i, body['_embedded']['categories'].count
 end
 
 Then(/^the body should contain the "([^"]*)" category$/) do |category|

@@ -14,7 +14,9 @@ module WebmachineHALJSONAPIDemo
       base_uri = request.base_uri
       %({
         "_links": {
-          "self": {"href": "#{base_uri}"}
+          "self": {"href": "#{base_uri}"},
+          "tokens": {"href": "#{base_uri}tokens"},
+          "categories": {"href": "#{base_uri}categories"}
         }
       })
     end
