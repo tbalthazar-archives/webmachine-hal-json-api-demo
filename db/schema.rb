@@ -35,6 +35,7 @@ module WebmachineHALJSONAPIDemo
         primary_key :id
         foreign_key :reader_id, :readers
         foreign_key :article_id, :articles
+        unique [:reader_id, :article_id]
       end
     end
   end

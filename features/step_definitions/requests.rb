@@ -88,3 +88,11 @@ When(/^the client sends a request to grant "([^"]*)" access to "([^"]*)"$/) do |
     reader_id: r.id
   }.to_json
 end
+
+When(/^the client sends a request to revoke "([^"]*)" access to "([^"]*)"$/) do |reader, article|
+  r = find_reader_with_fixture_name(reader)
+  a = find_article_with_fixture_name(article)
+  delete "/articles/#{a.id}/access", {
+    reader_id: r.id
+  }.to_json
+end
