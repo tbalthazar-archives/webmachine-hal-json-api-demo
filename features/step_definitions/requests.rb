@@ -49,9 +49,7 @@ When(/^the client sends a request to list categories$/) do
 end
 
 When(/^the client sends a request to get the "([^"]*)" category$/) do |category|
-  name = attributes_for(category.downcase)[:name]
-  c = WebmachineHALJSONAPIDemo::Category.where(name: name).first
-
+  c = find_category_with_fixture_name(category)
   get "/categories/#{c.id}"
 end
 
@@ -62,20 +60,17 @@ When(/^the client sends a request to get a category that does not exist$/) do
 end
 
 When(/^the client sends a request to get the "([^"]*)" article$/) do |article|
-  title = attributes_for(article.downcase)[:title]
-  a = WebmachineHALJSONAPIDemo::Article.where(title: title).first
+  a = find_article_with_fixture_name(article)
   get "/articles/#{a.id}"
 end
 
 When(/^the client sends a request to list articles in the "([^"]*)" category$/) do |category|
-  name = attributes_for(category.downcase)[:name]
-  c = WebmachineHALJSONAPIDemo::Category.where(name: name).first
+  c = find_category_with_fixture_name(category)
   get "/categories/#{c.id}/articles"
 end
 
 When(/^the client sends a request to create an article in the "([^"]*)" category$/) do |category|
-  name = attributes_for(category.downcase)[:name]
-  c = WebmachineHALJSONAPIDemo::Category.where(name: name).first
+  c = find_category_with_fixture_name(category)
   post "/categories/#{c.id}/articles", {
     title: 'Linux on the desktop is a thing',
     link: 'https://example.org/tech/linux-on-the-desktop-is-a-thing'
@@ -87,10 +82,8 @@ When(/^the client sends a request to list readers$/) do
 end
 
 When(/^the client sends a request to grant "([^"]*)" access to "([^"]*)"$/) do |reader, article|
-  email = attributes_for(reader.downcase)[:email]
-  r = WebmachineHALJSONAPIDemo::Reader.where(email: email).first
-  title = attributes_for(article.downcase)[:title]
-  a = WebmachineHALJSONAPIDemo::Article.where(title: title).first
+  r = find_reader_with_fixture_name(reader)
+  a = find_article_with_fixture_name(article)
   post "/articles/#{a.id}/access", {
     reader_id: r.id
   }.to_json

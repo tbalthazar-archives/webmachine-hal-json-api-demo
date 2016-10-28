@@ -23,16 +23,14 @@ Then(/^the body should contain (\d+) categories$/) do |nb_categories|
 end
 
 Then(/^the body should contain the "([^"]*)" category$/) do |category|
-  name = attributes_for(category.downcase)[:name]
-  c = WebmachineHALJSONAPIDemo::Category.where(name: name).first
+  c = find_category_with_fixture_name(category)
   body = JSON.parse(last_response.body)
   assert_equal c.id, body['id']
   assert_equal c.name, body['name']
 end
 
 Then(/^the body should contain the "([^"]*)" article$/) do |article|
-  title = attributes_for(article.downcase)[:title]
-  a = WebmachineHALJSONAPIDemo::Article.where(title: title).first
+  a = find_article_with_fixture_name(article)
   body = JSON.parse(last_response.body)
   assert_equal a.id, body['id']
   assert_equal a.title, body['title']
