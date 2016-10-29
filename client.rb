@@ -26,11 +26,18 @@ class Client
     @api.categories.categories.each do |c|
       puts "- #{c.name}"
     end
-    categories = @api.categories
-    puts "- first category name is: #{categories.find(1).first.name}"
+  end
+
+  def category
+    c = @api.categories.find(1).first
+    puts "- first category name is: #{c.name}"
+
+    n = c.next.get
+    puts "- next category name is: #{n.name}"
   end
 end
 
 client = Client.new
 client.token
 client.categories
+client.category

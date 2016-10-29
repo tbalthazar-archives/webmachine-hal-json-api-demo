@@ -1,5 +1,6 @@
 require 'webmachine'
 require 'jwt'
+require 'roar/decorator'
 require 'roar/json/hal'
 require 'sqlite3'
 require 'sequel'

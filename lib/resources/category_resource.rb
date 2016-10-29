@@ -11,7 +11,7 @@ module WebmachineHALJSONAPIDemo
     private
 
     def to_json
-      @category.extend(CategoryRepresenter).to_json
+      CategoryRepresenter.new(@category).to_json
     end
   end
 end
