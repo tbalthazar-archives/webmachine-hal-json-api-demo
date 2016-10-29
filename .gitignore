@@ -36,3 +36,4 @@ Gemfile.lock
 .rvmrc
 
 .env
+.token
