@@ -31,8 +31,7 @@ module WebmachineHALJSONAPIDemo
     def from_json
       return '' if create_category
 
-      response.body = @error.extend(ErrorRepresenter).to_json
-      response.code = 400
+      render_error(400, @error)
     end
 
     def create_category
