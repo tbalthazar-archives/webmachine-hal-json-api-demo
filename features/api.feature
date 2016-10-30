@@ -12,7 +12,8 @@ Feature: API
         "_links": {
           "self": {"href": "http://example.org/"},
           "tokens": {"href": "http://example.org/tokens"},
-          "categories": {"href": "http://example.org/categories"}
+          "categories": {"href": "http://example.org/categories"},
+          "readers": {"href": "http://example.org/readers"}
         }
       }
       """

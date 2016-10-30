@@ -27,3 +27,13 @@ Feature: Articles
     When the client sends a request to create an article in the "Tech" category
     Then the status code should be 201
     And the response body should be empty
+
+  Scenario: List readers of an article
+    Given the client is signed in as "Alice"
+    And the "Linux on the desktop is a thing" article is in the "Tech" category
+    And the "Jane" reader exists
+    And "Jane" has access to the "Linux on the desktop is a thing" article
+    And the client provides valid media type headers
+    When the client sends a request to list readers of the "Linux on the desktop is a thing" article
+    Then the status code should be 200
+    And the body should contain 1 readers

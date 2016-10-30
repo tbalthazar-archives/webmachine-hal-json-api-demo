@@ -96,3 +96,8 @@ When(/^the client sends a request to revoke "([^"]*)" access to "([^"]*)"$/) do 
     reader_id: r.id
   }.to_json
 end
+
+When(/^the client sends a request to list readers of the "([^"]*)" article$/) do |article|
+  a = find_article_with_fixture_name(article)
+  get "/articles/#{a.id}/readers"
+end
