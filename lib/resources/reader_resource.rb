@@ -11,7 +11,7 @@ module WebmachineHALJSONAPIDemo
     private
 
     def to_json
-      # @reader.extend(ReaderRepresenter).to_json
+      @reader.extend(ReaderRepresenter).to_json
     end
   end
 end

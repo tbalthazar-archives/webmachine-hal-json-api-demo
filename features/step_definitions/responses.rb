@@ -48,3 +48,11 @@ Then(/^the body should contain (\d+) readers$/) do |nb_readers|
   refute_nil body['_embedded']
   assert_equal nb_readers.to_i, body['_embedded']['readers'].count
 end
+
+Then(/^the body should contain the "([^"]*)" reader$/) do |reader|
+  r = find_reader_with_fixture_name(reader)
+  body = JSON.parse(last_response.body)
+  assert_equal r.id, body['id']
+  assert_equal r.name, body['name']
+  assert_equal r.email, body['email']
+end

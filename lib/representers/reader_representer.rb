@@ -3,6 +3,7 @@ module WebmachineHALJSONAPIDemo
     include Roar::JSON::HAL
 
     link(:self) { "/readers/#{id}" }
+    link(:articles) { "/readers/#{id}/articles" }
 
     property :id
     property :email

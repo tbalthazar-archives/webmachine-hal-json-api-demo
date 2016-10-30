@@ -81,6 +81,11 @@ When(/^the client sends a request to list readers$/) do
   get '/readers'
 end
 
+When(/^the client sends a request to get the "([^"]*)" reader$/) do |reader|
+  r = find_reader_with_fixture_name(reader)
+  get "/readers/#{r.id}"
+end
+
 When(/^the client sends a request to grant "([^"]*)" access to "([^"]*)"$/) do |reader, article|
   r = find_reader_with_fixture_name(reader)
   a = find_article_with_fixture_name(article)

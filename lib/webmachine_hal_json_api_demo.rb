@@ -14,6 +14,7 @@ require 'resources/articles_resource'
 require 'resources/article_resource'
 require 'resources/article_readers_resource'
 require 'resources/readers_resource'
+require 'resources/reader_resource'
 require 'resources/reader_articles_resource'
 require 'resources/access_resource'
 
