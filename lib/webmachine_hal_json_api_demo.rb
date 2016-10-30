@@ -18,6 +18,8 @@ require 'resources/reader_resource'
 require 'resources/reader_articles_resource'
 require 'resources/access_resource'
 
+require 'helpers/model_helper'
+
 require 'models/user'
 require 'models/category'
 require 'models/article'

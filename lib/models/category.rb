@@ -1,15 +1,8 @@
 module WebmachineHALJSONAPIDemo
   class Category < Sequel::Model
+    include ModelHelper
     one_to_many :articles
     plugin :validation_helpers
-
-    def next
-      Category.where('id > ?', id).order(:id).first
-    end
-
-    def previous
-      Category.where('id < ?', id).order(Sequel.desc(:id)).first
-    end
 
     def validate
       super

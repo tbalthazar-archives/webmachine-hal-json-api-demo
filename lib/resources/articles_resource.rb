@@ -21,7 +21,7 @@ module WebmachineHALJSONAPIDemo
     end
 
     def create_path
-      "/categories/#{category_id}/articles/#{next_id}"
+      "/categories/#{category_id}/articles/#{Article.next_id}"
     end
 
     private
@@ -46,13 +46,6 @@ module WebmachineHALJSONAPIDemo
 
     def category_id
       request.path_info[:category_id]
-    end
-
-    def next_id
-      # TODO: not the best way to really determine the next id.
-      # Try to look for sequence:
-      # https://stackoverflow.com/questions/107005/predict-next-auto-inserted-row-id-sqlite#5301923
-      DB[:articles].max(:id)
     end
   end
 end
