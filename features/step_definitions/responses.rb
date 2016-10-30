@@ -29,6 +29,15 @@ Then(/^the body should contain the "([^"]*)" category$/) do |category|
   assert_equal c.name, body['name']
 end
 
+Then(/^the body should contain the "([^"]*)" category in the list$/) do |category|
+  c = find_category_with_fixture_name(category)
+  body = JSON.parse(last_response.body)
+  refute_nil body['_embedded']
+  refute_nil body['_embedded']['categories']
+  assert_equal c.id, body['_embedded']['categories'].first['id']
+  assert_equal c.name, body['_embedded']['categories'].first['name']
+end
+
 Then(/^the body should contain the "([^"]*)" article$/) do |article|
   a = find_article_with_fixture_name(article)
   body = JSON.parse(last_response.body)

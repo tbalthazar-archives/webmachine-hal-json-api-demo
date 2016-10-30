@@ -25,6 +25,7 @@ module WebmachineHALJSONAPIDemo
     private
 
     def to_json
+      filter_categories
       extend(CategoriesRepresenter).to_json
     end
 
@@ -32,6 +33,13 @@ module WebmachineHALJSONAPIDemo
       return '' if create_category
 
       render_error(400, @error)
+    end
+
+    def filter_categories
+      name = request.query['name']
+      return if name.nil? || name.empty?
+
+      @categories = Category.where(Sequel.ilike(:name, "%#{name}%")).to_a
     end
 
     def create_category

@@ -9,5 +9,13 @@ module WebmachineHALJSONAPIDemo
     factory :tech, class: Category do
       name 'Tech'
     end
+
+    factory :politics, class: Category do
+      name 'Politics'
+    end
+
+    factory :architecture, class: Category do
+      name 'Architecture'
+    end
   end
 end

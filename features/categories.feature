@@ -77,3 +77,14 @@ Feature: Categories
     When the client sends a request to delete the "Tech" category
     Then the status code should be 204
     And the response body should be empty
+
+  Scenario: Search categories
+    Given the client is signed in as "Alice"
+    And the "Politics" category exists
+    And the "Tech" category exists
+    And the "Architecture" category exists
+    And the client provides valid media type headers
+    When the client sends a request to search for a category named "tec"
+    Then the status code should be 200
+    And the body should contain 2 categories
+    And the body should contain the "Tech" category in the list

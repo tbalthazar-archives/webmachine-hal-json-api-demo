@@ -70,6 +70,10 @@ When(/^the client sends a request to delete the "([^"]*)" category$/) do |catego
   delete "/categories/#{c.id}"
 end
 
+When(/^the client sends a request to search for a category named "([^"]*)"$/) do |category|
+  get "/categories?name=#{category}"
+end
+
 When(/^the client sends a request to create a category$/) do
   post '/categories', {
     name: 'Tech'

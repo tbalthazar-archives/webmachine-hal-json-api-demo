@@ -39,13 +39,11 @@ class Client
     end
   end
 
-  def first_category
+  def search_category
     set_authorization_header
-    c = @api.categories.find(1).first
-    puts "- first category name is: #{c.name}"
-
-    n = c.next.get
-    puts "- next category name is: #{n.name}"
+    @api.categories.search(name: 'tec').get.each do |c|
+      puts "- #{c.name}"
+    end
   end
 
   private
@@ -63,7 +61,7 @@ class Client
   end
 end
 
-AVAILABLE_CMDS = %w(help login categories first_category).freeze
+AVAILABLE_CMDS = %w(help login categories search_category).freeze
 
 cmd = ARGV[0]
 if AVAILABLE_CMDS.include?(cmd)
