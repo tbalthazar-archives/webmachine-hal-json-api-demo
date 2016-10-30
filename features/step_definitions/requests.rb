@@ -59,6 +59,23 @@ When(/^the client sends a request to get a category that does not exist$/) do
   get "/categories/#{max_id}"
 end
 
+When(/^the client sends a request to create the "([^"]*)" category$/) do |category|
+  post '/categories', {
+    name: category
+  }.to_json
+end
+
+When(/^the client sends a request to create a category$/) do
+  post '/categories', {
+    name: 'Tech'
+  }.to_json
+end
+
+When(/^the client sends a request to create a category without a name$/) do
+  post '/categories', {
+  }.to_json
+end
+
 When(/^the client sends a request to get the "([^"]*)" article$/) do |article|
   a = find_article_with_fixture_name(article)
   get "/articles/#{a.id}"
