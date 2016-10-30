@@ -65,6 +65,11 @@ When(/^the client sends a request to create the "([^"]*)" category$/) do |catego
   }.to_json
 end
 
+When(/^the client sends a request to delete the "([^"]*)" category$/) do |category|
+  c = find_category_with_fixture_name(category)
+  delete "/categories/#{c.id}"
+end
+
 When(/^the client sends a request to create a category$/) do
   post '/categories', {
     name: 'Tech'
@@ -73,6 +78,13 @@ end
 
 When(/^the client sends a request to create a category without a name$/) do
   post '/categories', {
+  }.to_json
+end
+
+When(/^the client sends a request to rename the "([^"]*)" category to "([^"]*)"$/) do |category, new_name|
+  c = find_category_with_fixture_name(category)
+  put "/categories/#{c.id}", {
+    name: new_name
   }.to_json
 end
 

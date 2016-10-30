@@ -53,3 +53,27 @@ Feature: Categories
     When the client sends a request to create the "Tech" category
     Then the status code should be 400
     And the body should contain an error for the "name" field
+
+  Scenario: Update category
+    Given the client is signed in as "Alice"
+    And the "Tech" category exists
+    And the client provides valid media type headers
+    When the client sends a request to rename the "Tech" category to "Technology"
+    Then the status code should be 204
+    And the response body should be empty
+
+  Scenario: Update category with an empty name
+    Given the client is signed in as "Alice"
+    And the "Tech" category exists
+    And the client provides valid media type headers
+    When the client sends a request to rename the "Tech" category to ""
+    Then the status code should be 400
+    And the body should contain an error for the "name" field
+
+  Scenario: Delete category
+    Given the client is signed in as "Alice"
+    And the "Tech" category exists
+    And the client provides valid media type headers
+    When the client sends a request to delete the "Tech" category
+    Then the status code should be 204
+    And the response body should be empty
