@@ -20,4 +20,5 @@ i3 = WebmachineHALJSONAPIDemo::Article.create(
   category_id: tech.id
 )
 jane = WebmachineHALJSONAPIDemo::Reader.create(name: 'Jane', email: 'jane@example.org')
+bob = WebmachineHALJSONAPIDemo::Reader.create(name: 'Bob', email: 'bob@example.org')
 linux.add_reader(jane)
