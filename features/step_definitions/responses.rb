@@ -39,10 +39,12 @@ end
 
 Then(/^the body should contain (\d+) articles$/) do |nb_articles|
   body = JSON.parse(last_response.body)
-  assert_equal nb_articles.to_i, body['articles'].count
+  refute_nil body['_embedded']
+  assert_equal nb_articles.to_i, body['_embedded']['articles'].count
 end
 
 Then(/^the body should contain (\d+) readers$/) do |nb_readers|
   body = JSON.parse(last_response.body)
-  assert_equal nb_readers.to_i, body['readers'].count
+  refute_nil body['_embedded']
+  assert_equal nb_readers.to_i, body['_embedded']['readers'].count
 end

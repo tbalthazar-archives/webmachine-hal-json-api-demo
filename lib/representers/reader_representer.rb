@@ -6,6 +6,6 @@ module WebmachineHALJSONAPIDemo
 
     property :id
     property :email
-    property :email
+    property :name
   end
 end

@@ -1,8 +1,9 @@
 module WebmachineHALJSONAPIDemo
-  class CategoryRepresenter < Roar::Decorator
+  module CategoryRepresenter
     include Roar::JSON::HAL
 
     link(:self) { "/categories/#{represented.id}" }
+    link(:articles) { "/categories/#{represented.id}/articles" }
     link(:prev) do
       "/categories/#{represented.previous.id}" if represented.previous
     end

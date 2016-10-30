@@ -9,9 +9,15 @@ WebmachineHALJSONAPIDemo::User.create(email: 'alice@example.org',
                                       password: 'alice-pwd')
 tech = WebmachineHALJSONAPIDemo::Category.create(name: 'Tech')
 WebmachineHALJSONAPIDemo::Category.create(name: 'Culture')
-WebmachineHALJSONAPIDemo::Article.create(
+linux = WebmachineHALJSONAPIDemo::Article.create(
   title: 'Linux on the desktop is a thing',
   link: 'https://example.com/tech/linux-on-the-desktop-is-a-thing',
   category_id: tech.id
 )
-WebmachineHALJSONAPIDemo::Reader.create(name: 'Jane', email: 'jane@example.org')
+i3 = WebmachineHALJSONAPIDemo::Article.create(
+  title: 'i3, a tiling window manager',
+  link: 'https://example.com/tech/i3-a-tiling-window-manager',
+  category_id: tech.id
+)
+jane = WebmachineHALJSONAPIDemo::Reader.create(name: 'Jane', email: 'jane@example.org')
+linux.add_reader(jane)
