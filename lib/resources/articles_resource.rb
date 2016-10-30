@@ -31,8 +31,17 @@ module WebmachineHALJSONAPIDemo
     end
 
     def from_json
-      Article.create(params.merge(category_id: category_id))
-      ''
+      return '' if create_article
+
+      response.body = @error.extend(ErrorRepresenter).to_json
+      response.code = 400
+    end
+
+    def create_article
+      @article = Article.create(params.merge(category_id: category_id))
+    rescue StandardError => e
+      @error = e
+      nil
     end
 
     def category_id

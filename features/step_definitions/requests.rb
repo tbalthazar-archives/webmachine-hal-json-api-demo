@@ -77,6 +77,13 @@ When(/^the client sends a request to create an article in the "([^"]*)" category
   }.to_json
 end
 
+When(/^the client sends a request to create an article without a title in the "([^"]*)" category$/) do |category|
+  c = find_category_with_fixture_name(category)
+  post "/categories/#{c.id}/articles", {
+    link: 'https://example.org/tech/linux-on-the-desktop-is-a-thing'
+  }.to_json
+end
+
 When(/^the client sends a request to list readers$/) do
   get '/readers'
 end

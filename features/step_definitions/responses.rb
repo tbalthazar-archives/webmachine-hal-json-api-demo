@@ -56,3 +56,8 @@ Then(/^the body should contain the "([^"]*)" reader$/) do |reader|
   assert_equal r.name, body['name']
   assert_equal r.email, body['email']
 end
+
+Then(/^the body should contain an error for the "([^"]*)" field$/) do |field|
+  body = JSON.parse(last_response.body)
+  assert body['message'].include?(field)
+end

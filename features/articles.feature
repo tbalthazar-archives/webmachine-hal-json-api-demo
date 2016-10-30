@@ -28,6 +28,14 @@ Feature: Articles
     Then the status code should be 201
     And the response body should be empty
 
+  Scenario: Create an article without a title in a category
+    Given the client is signed in as "Alice"
+    And the "Tech" category exists
+    And the client provides valid media type headers
+    When the client sends a request to create an article without a title in the "Tech" category
+    Then the status code should be 400
+    And the body should contain an error for the "title" field
+
   Scenario: List readers of an article
     Given the client is signed in as "Alice"
     And the "Linux on the desktop is a thing" article is in the "Tech" category

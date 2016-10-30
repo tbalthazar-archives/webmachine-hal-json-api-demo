@@ -24,6 +24,7 @@ require 'models/article'
 require 'models/reader'
 require 'models/access'
 
+require 'representers/error_representer'
 require 'representers/category_representer'
 require 'representers/categories_representer'
 require 'representers/article_representer'
