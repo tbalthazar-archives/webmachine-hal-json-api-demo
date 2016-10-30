@@ -56,9 +56,6 @@ class Client
 
   def set_authorization_header
     token = File.open(token_path, &:gets)
-    # token = File.open(token_path) do |f|
-    #   f.gets
-    # end
     @api.headers = @api.headers.merge('Authorization' => "Bearer #{token}")
   rescue
     puts "Error while trying to read token in #{token_path}."
@@ -83,8 +80,3 @@ if AVAILABLE_CMDS.include?(cmd)
 else
   puts "'#{cmd}' not in #{AVAILABLE_CMDS}"
 end
-
-# client = Client.new
-# client.token
-# client.categories
-# client.category

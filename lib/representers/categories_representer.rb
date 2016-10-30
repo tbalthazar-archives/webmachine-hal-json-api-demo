@@ -9,5 +9,6 @@ module WebmachineHALJSONAPIDemo
     collection :categories, getter: proc { @categories },
                             decorator: CategoryRepresenter,
                             embedded: true
+    property :length, getter: proc { @categories.length }
   end
 end

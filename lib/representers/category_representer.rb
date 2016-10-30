@@ -12,5 +12,6 @@ module WebmachineHALJSONAPIDemo
 
     property :id
     property :name
+    property :nb_articles, getter: proc { articles.length }
   end
 end
