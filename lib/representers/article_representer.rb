@@ -3,6 +3,7 @@ module WebmachineHALJSONAPIDemo
     include Roar::JSON::HAL
 
     link(:self) { "/articles/#{id}" }
+    link(:readers) { "/articles/#{id}/readers" }
     link(:prev) do
       "/articles/#{represented.previous.id}" if represented.previous
     end

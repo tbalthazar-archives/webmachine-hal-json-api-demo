@@ -16,6 +16,8 @@ App = Webmachine::Application.new do |app|
         WebmachineHALJSONAPIDemo::ArticleReadersResource
 
     add ['readers'], WebmachineHALJSONAPIDemo::ReadersResource
+    add ['readers', :reader_id, 'articles'],
+        WebmachineHALJSONAPIDemo::ReaderArticlesResource
 
     add ['articles', :article_id, 'access'],
         WebmachineHALJSONAPIDemo::AccessResource
