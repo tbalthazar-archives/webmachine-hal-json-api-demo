@@ -4,6 +4,8 @@ module WebmachineHALJSONAPIDemo
 
     link(:self) { "/articles/#{id}" }
     link(:readers) { "/articles/#{id}/readers" }
+    link(:grant_access) { "/articles/#{id}/grant_access" }
+    link(:revoke_access) { "/articles/#{id}/revoke_access" }
     link(:prev) do
       "/articles/#{represented.previous.id}" if represented.previous
     end

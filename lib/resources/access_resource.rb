@@ -1,7 +1,7 @@
 module WebmachineHALJSONAPIDemo
   class AccessResource < BaseResource
     def allowed_methods
-      %w(POST DELETE)
+      %w(POST)
     end
 
     def content_types_accepted
@@ -10,7 +10,7 @@ module WebmachineHALJSONAPIDemo
 
     def resource_exists?
       return false unless article && reader
-      return false if delete? && access.nil?
+      return false if revoke? && access.nil?
 
       true
     end
@@ -20,12 +20,11 @@ module WebmachineHALJSONAPIDemo
     end
 
     def process_post
-      Accesses::CreateService.new(reader.id, article.id).execute
-      true
-    end
-
-    def delete_resource
-      Accesses::DeleteService.new(reader.id, article.id).execute
+      if revoke?
+        Accesses::DeleteService.new(reader.id, article.id).execute
+      else
+        Accesses::CreateService.new(reader.id, article.id).execute
+      end
       true
     end
 
@@ -56,8 +55,8 @@ module WebmachineHALJSONAPIDemo
                                article_id: article.id).first
     end
 
-    def delete?
-      request.method == 'DELETE'
+    def revoke?
+      request.routing_tokens.last == 'revoke_access'
     end
   end
 end
