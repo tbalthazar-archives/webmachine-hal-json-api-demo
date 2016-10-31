@@ -162,3 +162,8 @@ When(/^the client sends a request to change the title of the "([^"]*)" article i
     title: new_title
   }.to_json
 end
+
+When(/^the client sends a request to delete the "([^"]*)" article$/) do |article|
+  a = find_article_with_fixture_name(article)
+  delete "/articles/#{a.id}"
+end

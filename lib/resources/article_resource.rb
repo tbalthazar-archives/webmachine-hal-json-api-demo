@@ -1,7 +1,7 @@
 module WebmachineHALJSONAPIDemo
   class ArticleResource < BaseResource
     def allowed_methods
-      %w(GET PUT)
+      %w(GET PUT DELETE)
     end
 
     def content_types_accepted
@@ -10,6 +10,11 @@ module WebmachineHALJSONAPIDemo
 
     def resource_exists?
       @article = Article[request.path_info[:id]]
+    end
+
+    def delete_resource
+      Articles::DeleteService.new(@article).execute
+      true
     end
 
     private
