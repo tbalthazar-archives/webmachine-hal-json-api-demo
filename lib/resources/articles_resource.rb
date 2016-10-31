@@ -11,9 +11,7 @@ module WebmachineHALJSONAPIDemo
     def resource_exists?
       return true if request.method == 'POST'
 
-      @category = Category[category_id]
-      @articles = Article.where(category_id: category_id)
-      @category && !@articles.empty?
+      category && !articles.empty?
     end
 
     def post_is_create?
@@ -31,20 +29,24 @@ module WebmachineHALJSONAPIDemo
     end
 
     def from_json
-      return '' if create_article
-
-      render_error(400, @error)
-    end
-
-    def create_article
-      @article = Article.create(params.merge(category_id: category_id))
-    rescue StandardError => e
-      @error = e
-      nil
+      a = Articles::CreateService.new(params).execute
+      a.valid? ? '' : render_error(400, a)
     end
 
     def category_id
       request.path_info[:category_id]
+    end
+
+    def category
+      @category ||= Category[category_id]
+    end
+
+    def articles
+      @articles ||= Article.where(category_id: category_id)
+    end
+
+    def params
+      super.merge(category_id: category_id)
     end
   end
 end
