@@ -7,25 +7,27 @@ This is a simple Ruby application that shows how to use [Webmachine](https://git
 **1. Clone this repository:**
 
 ```bash
-$ git clone https://github.com/tbalthazar/???.git
+$ git clone https://github.com/tbalthazar/webmachine-hal-json-api-demo.git
 ``` 
 
-**2. Change directory to `???` and run the bootstrap script:**
+**2. Change directory to `webmachine-hal-json-api-demo` and run the bootstrap script:**
 
 It will install the required gems, create a SQLite database in `db/database.db` and seed the database with sample data.
 
 ```bash
-$ cd ???
+$ cd webmachine-hal-json-api-demo
 $ script/bootstrap
 ``` 
 
-**3. Run the app:**
+**3. Run the server:**
 
 ```bash
 $ script/run
 ``` 
 
 **4. Run the client:**
+
+Run the client in another terminal to connect to the server.
 
 ```bash
 $ ruby client.rb help
