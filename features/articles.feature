@@ -36,6 +36,14 @@ Feature: Articles
     Then the status code should be 400
     And the body should contain an error for the "title" field
 
+  Scenario: Update an article
+    Given the client is signed in as "Alice"
+    And the "Linux on the desktop is a thing" article is in the "Tech" category
+    And the client provides valid media type headers
+    When the client sends a request to change the title of the "Linux on the desktop is a thing" article into "Linux rUleZ!"
+    Then the status code should be 204
+    And the response body should be empty
+
   Scenario: List readers of an article
     Given the client is signed in as "Alice"
     And the "Linux on the desktop is a thing" article is in the "Tech" category

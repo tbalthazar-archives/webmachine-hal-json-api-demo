@@ -155,3 +155,10 @@ When(/^the client sends a request to list articles of the "([^"]*)" reader$/) do
   r = find_reader_with_fixture_name(reader)
   get "/readers/#{r.id}/articles"
 end
+
+When(/^the client sends a request to change the title of the "([^"]*)" article into "([^"]*)"$/) do |article, new_title|
+  a = find_article_with_fixture_name(article)
+  put "/articles/#{a.id}", {
+    title: new_title
+  }.to_json
+end

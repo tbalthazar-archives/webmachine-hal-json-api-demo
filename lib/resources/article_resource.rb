@@ -1,7 +1,11 @@
 module WebmachineHALJSONAPIDemo
   class ArticleResource < BaseResource
     def allowed_methods
-      ['GET']
+      %w(GET PUT)
+    end
+
+    def content_types_accepted
+      [['application/hal+json', :from_json]]
     end
 
     def resource_exists?
@@ -12,6 +16,11 @@ module WebmachineHALJSONAPIDemo
 
     def to_json
       @article.extend(ArticleRepresenter).to_json
+    end
+
+    def from_json
+      a = Articles::UpdateService.new(@article, params).execute
+      a.valid? ? '' : render_error(400, a)
     end
   end
 end
