@@ -20,6 +20,14 @@ class Client
       delete: {
         prompt: 'Enter a category id:'
       }
+    },
+    articles: {
+      list: {
+        prompt: 'Enter a category id:'
+      },
+      new: {
+        prompt: 'Enter an article name:'
+      }
     }
   }.freeze
 
@@ -124,6 +132,30 @@ class Client
     end
   end
 
+  def articles_list(category_id)
+    set_authorization_header
+    begin
+      c = @api.categories.categories.find { |cat| cat.id == category_id.to_i }
+      c.articles.articles.each do |a|
+        puts "- (#{a.id}) #{a.title}"
+      end
+    rescue StandardError => e
+      handle_error(e)
+    end
+  end
+
+  def articles_new(title)
+    set_authorization_header
+    begin
+      c = @api.categories.first
+      puts "Creating an article in (#{c.id}) #{c.name}"
+      link = "https://example.com/#{title}"
+      _ = c.articles.post(title: title, link: link)
+    rescue StandardError => e
+      handle_error(e)
+    end
+  end
+
   def self.command_exists?(command)
     !command.nil? && !CMDS[command.to_sym].nil?
   end
@@ -197,6 +229,10 @@ class Client
     elsif e.response.status == 400
       body = JSON.parse(e.response.body)
       puts "Error: #{body['message']}"
+    elsif e.response.status == 404
+      puts 'Not found.'
+    elsif e.response.status == 500
+      puts 'Server error :(.'
     else
       puts "Unknown error: #{e.inspect}"
     end
