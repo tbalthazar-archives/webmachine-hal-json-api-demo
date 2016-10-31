@@ -174,3 +174,10 @@ When(/^the client sends a request to create a reader$/) do
     email: 'john@example.com'
   }.to_json
 end
+
+When(/^the client sends a request to rename the "([^"]*)" reader to "([^"]*)"$/) do |reader, new_name|
+  r = find_reader_with_fixture_name(reader)
+  put "/readers/#{r.id}", {
+    name: new_name
+  }.to_json
+end
