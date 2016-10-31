@@ -43,7 +43,7 @@ $ ruby client.rb help
 
 ## About the app
 
-The app allows `Users` to manage `Articles` which belongs to a `Category`, and grant/revoke `Readers` access to those articles.
+The app allows `Users` to manage `Articles` which belong to a `Category`, and grant/revoke `Readers` access to those articles. The client is really basic and doesn't handle all the edge cases, but it allows to interact with the app easily.
 
 ## Tests
 
