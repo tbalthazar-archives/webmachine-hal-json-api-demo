@@ -9,12 +9,16 @@ class Client
     categories: {
       list: {},
       search: {
-        arg: 'search term',
-        prompt: 'Enter your search term: '
+        prompt: 'Enter your search term:'
       },
-      create: {
-        arg: 'category name',
-        prompt: 'Enter a category name: '
+      new: {
+        prompt: 'Enter a category name:'
+      },
+      edit: {
+        prompt: 'Enter a new name for the first category:'
+      },
+      delete: {
+        prompt: 'Enter a category id:'
       }
     }
   }.freeze
@@ -75,9 +79,8 @@ class Client
   def categories_list
     set_authorization_header
     begin
-      puts '--- list of categories:'
       @api.categories.categories.each do |c|
-        puts "- #{c.name}"
+        puts "- (#{c.id}) #{c.name}"
       end
     rescue StandardError => e
       handle_error(e)
@@ -87,7 +90,37 @@ class Client
   def categories_search(term)
     set_authorization_header
     @api.categories.search(name: term).get.each do |c|
-      puts "- #{c.name}"
+      puts "- (#{c.id}) #{c.name}"
+    end
+  end
+
+  def categories_new(name)
+    set_authorization_header
+    begin
+      _ = @api.categories.post(name: name)
+    rescue StandardError => e
+      handle_error(e)
+    end
+  end
+
+  def categories_edit(name)
+    set_authorization_header
+    begin
+      c = @api.categories.first
+      puts "(#{c.id}) #{c.name} will be renamed: #{name}"
+      c.put(name: name)
+    rescue StandardError => e
+      handle_error(e)
+    end
+  end
+
+  def categories_delete(id)
+    set_authorization_header
+    begin
+      c = @api.categories.categories.find { |cat| cat.id == id.to_i }
+      c.delete
+    rescue StandardError => e
+      handle_error(e)
     end
   end
 
@@ -161,6 +194,9 @@ class Client
   def handle_error(e)
     if e.response.status == 401
       puts 'Please login first. Run ruby client.rb help to learn how.'
+    elsif e.response.status == 400
+      body = JSON.parse(e.response.body)
+      puts "Error: #{body['message']}"
     else
       puts "Unknown error: #{e.inspect}"
     end
