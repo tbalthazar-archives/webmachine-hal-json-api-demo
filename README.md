@@ -30,11 +30,20 @@ $ script/run
 Run the client in another terminal to connect to the server.
 
 ```bash
-$ ruby client.rb help
+$ ruby client.rb login
 $ ruby client.rb categories list
 $ ruby client.rb categories new
-$ ...
 ``` 
+
+Get help.
+
+```bash
+$ ruby client.rb help
+``` 
+
+## About the app
+
+The app allows `Users` to manage `Articles` which belongs to a `Category`, and grant/revoke `Readers` access to those articles.
 
 ## Tests
 
