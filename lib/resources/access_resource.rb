@@ -20,12 +20,12 @@ module WebmachineHALJSONAPIDemo
     end
 
     def process_post
-      access || Access.create(reader_id: reader.id, article_id: article.id)
+      Accesses::CreateService.new(reader.id, article.id).execute
       true
     end
 
     def delete_resource
-      access.destroy
+      Accesses::DeleteService.new(reader.id, article.id).execute
       true
     end
 

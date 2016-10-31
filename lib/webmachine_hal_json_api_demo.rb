@@ -38,3 +38,5 @@ require 'representers/article_readers_representer'
 
 require 'services/categories/create_service'
 require 'services/categories/search_service'
+require 'services/accesses/create_service'
+require 'services/accesses/delete_service'
