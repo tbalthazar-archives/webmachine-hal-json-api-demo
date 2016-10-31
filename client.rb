@@ -112,168 +112,128 @@ class Client
   end
 
   def categories_list
-    set_authorization_header
-    begin
+    authenticated_query do
       @api.categories.categories.each do |c|
         puts "- (#{c.id}) #{c.name}"
       end
-    rescue StandardError => e
-      handle_error(e)
     end
   end
 
   def categories_search(term)
-    set_authorization_header
-    @api.categories.search(name: term).get.each do |c|
-      puts "- (#{c.id}) #{c.name}"
+    authenticated_query do
+      @api.categories.search(name: term).get.each do |c|
+        puts "- (#{c.id}) #{c.name}"
+      end
     end
   end
 
   def categories_new(name)
-    set_authorization_header
-    begin
+    authenticated_query do
       _ = @api.categories.post(name: name)
-    rescue StandardError => e
-      handle_error(e)
     end
   end
 
   def categories_edit(name)
-    set_authorization_header
-    begin
+    authenticated_query do
       c = @api.categories.first
       puts "(#{c.id}) #{c.name} will be renamed: #{name}"
       c.put(name: name)
-    rescue StandardError => e
-      handle_error(e)
     end
   end
 
   def categories_delete(id)
-    set_authorization_header
-    begin
+    authenticated_query do
       c = @api.categories.categories.find { |cat| cat.id == id.to_i }
       c.delete
-    rescue StandardError => e
-      handle_error(e)
     end
   end
 
   def articles_list(category_id)
-    set_authorization_header
-    begin
+    authenticated_query do
       c = @api.categories.categories.find { |cat| cat.id == category_id.to_i }
       c.articles.articles.each do |a|
         puts "- (#{a.id}) #{a.title}"
       end
-    rescue StandardError => e
-      handle_error(e)
     end
   end
 
   def articles_search(term)
-    set_authorization_header
-    @api.articles.search(title: term).get.each do |c|
-      puts "- (#{c.id}) #{c.title}"
+    authenticated_query do
+      @api.articles.search(title: term).get.each do |c|
+        puts "- (#{c.id}) #{c.title}"
+      end
     end
   end
 
   def articles_new(title)
-    set_authorization_header
-    begin
+    authenticated_query do
       c = @api.categories.first
       puts "Creating an article in (#{c.id}) #{c.name}"
       link = "https://example.com/#{title}"
       _ = c.articles.post(title: title, link: link)
-    rescue StandardError => e
-      handle_error(e)
     end
   end
 
   def articles_edit(title)
-    set_authorization_header
-    begin
+    authenticated_query do
       a = @api.articles.first
       puts "(#{a.id}) #{a.title} will be changed to: #{title}"
       a.put(title: title)
-    rescue StandardError => e
-      handle_error(e)
     end
   end
 
   def articles_delete(id)
-    set_authorization_header
-    begin
+    authenticated_query do
       a = @api.articles.articles.find { |art| art.id == id.to_i }
       a.delete
-    rescue StandardError => e
-      handle_error(e)
     end
   end
 
   def articles_readers(id)
-    set_authorization_header
-    begin
+    authenticated_query do
       a = @api.articles.articles.find { |art| art.id == id.to_i }
       a.readers.readers.each do |r|
         puts "- (#{r.id}) #{r.name}"
       end
-    rescue StandardError => e
-      handle_error(e)
     end
   end
 
   def readers_list
-    set_authorization_header
-    begin
+    authenticated_query do
       @api.readers.readers.each do |r|
         puts "- (#{r.id}) #{r.name}"
       end
-    rescue StandardError => e
-      handle_error(e)
     end
   end
 
   def readers_new(name)
-    set_authorization_header
-    begin
+    authenticated_query do
       email = "#{name}@example.com"
       _ = @api.readers.post(name: name, email: email)
-    rescue StandardError => e
-      handle_error(e)
     end
   end
 
   def readers_edit(name)
-    set_authorization_header
-    begin
+    authenticated_query do
       r = @api.readers.first
       puts "(#{r.id}) #{r.name} will be renamed: #{name}"
       r.put(name: name)
-    rescue StandardError => e
-      handle_error(e)
     end
   end
 
   def readers_delete(id)
-    set_authorization_header
-    begin
+    authenticated_query do
       r = @api.readers.readers.find { |rea| rea.id == id.to_i }
       r.delete
-    rescue StandardError => e
-      handle_error(e)
     end
   end
 
   def readers_articles(id)
-    set_authorization_header
-    begin
+    authenticated_query do
       r = @api.readers.readers.find { |rea| rea.id == id.to_i }
       r.articles.articles.each do |a|
         puts "- (#{a.id}) #{a.title}"
       end
-    rescue StandardError => e
-      handle_error(e)
     end
   end
 
@@ -360,6 +320,15 @@ class Client
       end
     else
       puts "Unknown error: #{e.inspect}"
+    end
+  end
+
+  def authenticated_query
+    set_authorization_header
+    begin
+      yield
+    rescue StandardError => e
+      handle_error(e)
     end
   end
 end
