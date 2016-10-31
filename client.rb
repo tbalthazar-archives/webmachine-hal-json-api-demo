@@ -39,6 +39,12 @@ class Client
       },
       readers: {
         prompt: 'Enter an article id:'
+      },
+      grant_access: {
+        prompt: 'Enter a reader id:'
+      },
+      revoke_access: {
+        prompt: 'Enter a reader id:'
       }
     },
     readers: {
@@ -195,6 +201,22 @@ class Client
       a.readers.readers.each do |r|
         puts "- (#{r.id}) #{r.name}"
       end
+    end
+  end
+
+  def articles_grant_access(id)
+    authenticated_query do
+      a = @api.articles.first
+      puts "(#{a.id}) #{a.title} will be added a reader: #{id}"
+      a.grant_access.post(reader_id: id)
+    end
+  end
+
+  def articles_revoke_access(id)
+    authenticated_query do
+      a = @api.articles.first
+      puts "(#{a.id}) #{a.title} will be removed a reader: #{id}"
+      a.revoke_access.post(reader_id: id)
     end
   end
 
