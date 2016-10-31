@@ -30,6 +30,12 @@ class Client
       },
       new: {
         prompt: 'Enter an article name:'
+      },
+      edit: {
+        prompt: 'Enter a new name for the first article:'
+      },
+      delete: {
+        prompt: 'Enter an article id:'
       }
     }
   }.freeze
@@ -161,6 +167,27 @@ class Client
       puts "Creating an article in (#{c.id}) #{c.name}"
       link = "https://example.com/#{title}"
       _ = c.articles.post(title: title, link: link)
+    rescue StandardError => e
+      handle_error(e)
+    end
+  end
+
+  def articles_edit(title)
+    set_authorization_header
+    begin
+      a = @api.articles.first
+      puts "(#{a.id}) #{a.title} will be changed to: #{title}"
+      a.put(title: title)
+    rescue StandardError => e
+      handle_error(e)
+    end
+  end
+
+  def articles_delete(id)
+    set_authorization_header
+    begin
+      a = @api.articles.articles.find { |art| art.id == id.to_i }
+      a.delete
     rescue StandardError => e
       handle_error(e)
     end
