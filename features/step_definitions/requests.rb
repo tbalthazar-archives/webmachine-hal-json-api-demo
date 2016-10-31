@@ -74,6 +74,10 @@ When(/^the client sends a request to search for a category named "([^"]*)"$/) do
   get "/categories?name=#{category}"
 end
 
+When(/^the client sends a request to search for an article titled "([^"]*)"$/) do |article|
+  get "/articles?title=#{article}"
+end
+
 When(/^the client sends a request to create a category$/) do
   post '/categories', {
     name: 'Tech'

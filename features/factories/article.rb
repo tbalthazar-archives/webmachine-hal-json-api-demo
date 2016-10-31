@@ -11,5 +11,15 @@ module WebmachineHALJSONAPIDemo
       title 'Linux on the desktop is a thing'
       link 'https://example.org/tech/linux-on-the-desktop-is-a-thing'
     end
+
+    factory 'beautiful desktop wallpapers', class: Article do
+      title 'Beautiful desktop wallpapers'
+      link 'https://example.org/tech/beautiful-desktop-wallpapers'
+    end
+
+    factory 'everything in the terminal', class: Article do
+      title 'Everything in the terminal'
+      link 'https://example.org/tech/everything in the terminal'
+    end
   end
 end

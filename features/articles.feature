@@ -45,3 +45,13 @@ Feature: Articles
     When the client sends a request to list readers of the "Linux on the desktop is a thing" article
     Then the status code should be 200
     And the body should contain 1 readers
+
+  Scenario: Search articles
+    Given the client is signed in as "Alice"
+    And the "Linux on the desktop is a thing" article is in the "Tech" category
+    And the "Beautiful desktop wallpapers" article is in the "Tech" category
+    And the "Everything in the terminal" article is in the "Tech" category
+    And the client provides valid media type headers
+    When the client sends a request to search for an article titled "desk"
+    Then the status code should be 200
+    And the body should contain 2 articles

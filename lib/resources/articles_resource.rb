@@ -11,7 +11,7 @@ module WebmachineHALJSONAPIDemo
     def resource_exists?
       return true if request.method == 'POST'
 
-      category && !articles.empty?
+      articles?
     end
 
     def post_is_create?
@@ -25,6 +25,8 @@ module WebmachineHALJSONAPIDemo
     private
 
     def to_json
+      @category = Category[category_id]
+      @articles = fetch_articles
       extend(ArticlesRepresenter).to_json
     end
 
@@ -33,20 +35,28 @@ module WebmachineHALJSONAPIDemo
       a.valid? ? '' : render_error(400, a)
     end
 
+    def fetch_articles
+      if request.query && request.query['title']
+        Articles::SearchService.new(request.query).execute
+      else
+        Article.where(category_id: category_id)
+      end
+    end
+
     def category_id
       request.path_info[:category_id]
     end
 
-    def category
-      @category ||= Category[category_id]
-    end
-
-    def articles
-      @articles ||= Article.where(category_id: category_id)
-    end
-
     def params
       super.merge(category_id: category_id)
+    end
+
+    def articles?
+      if category_id
+        Article.where(category_id: category_id).count > 0
+      else
+        Article.all.count > 0
+      end
     end
   end
 end
