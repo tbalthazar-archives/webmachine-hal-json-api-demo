@@ -36,6 +36,9 @@ class Client
       },
       delete: {
         prompt: 'Enter an article id:'
+      },
+      readers: {
+        prompt: 'Enter an article id:'
       }
     },
     readers: {
@@ -47,6 +50,9 @@ class Client
         prompt: 'Enter a new name for the first reader:'
       },
       delete: {
+        prompt: 'Enter a reader id:'
+      },
+      articles: {
         prompt: 'Enter a reader id:'
       }
     }
@@ -205,6 +211,18 @@ class Client
     end
   end
 
+  def articles_readers(id)
+    set_authorization_header
+    begin
+      a = @api.articles.articles.find { |art| art.id == id.to_i }
+      a.readers.readers.each do |r|
+        puts "- (#{r.id}) #{r.name}"
+      end
+    rescue StandardError => e
+      handle_error(e)
+    end
+  end
+
   def readers_list
     set_authorization_header
     begin
@@ -242,6 +260,18 @@ class Client
     begin
       r = @api.readers.readers.find { |rea| rea.id == id.to_i }
       r.delete
+    rescue StandardError => e
+      handle_error(e)
+    end
+  end
+
+  def readers_articles(id)
+    set_authorization_header
+    begin
+      r = @api.readers.readers.find { |rea| rea.id == id.to_i }
+      r.articles.articles.each do |a|
+        puts "- (#{a.id}) #{a.title}"
+      end
     rescue StandardError => e
       handle_error(e)
     end
