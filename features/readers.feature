@@ -19,6 +19,13 @@ Feature: Readers
     Then the status code should be 200
     And the body should contain the "Jane" reader
 
+  Scenario: Create a reader
+    Given the client is signed in as "Alice"
+    And the client provides valid media type headers
+    When the client sends a request to create a reader
+    Then the status code should be 201
+    And the response body should be empty
+
   Scenario: List articles of a reader
     Given the client is signed in as "Alice"
     And the "Linux on the desktop is a thing" article is in the "Tech" category
