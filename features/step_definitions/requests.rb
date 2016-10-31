@@ -181,3 +181,8 @@ When(/^the client sends a request to rename the "([^"]*)" reader to "([^"]*)"$/)
     name: new_name
   }.to_json
 end
+
+When(/^the client sends a request to delete the "([^"]*)" reader$/) do |reader|
+  r = find_reader_with_fixture_name(reader)
+  delete "/readers/#{r.id}"
+end
