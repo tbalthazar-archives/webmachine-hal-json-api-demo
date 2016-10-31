@@ -37,6 +37,8 @@ require 'representers/reader_articles_representer'
 require 'representers/article_readers_representer'
 
 require 'services/categories/create_service'
+require 'services/categories/update_service'
+require 'services/categories/delete_service'
 require 'services/categories/search_service'
 require 'services/accesses/create_service'
 require 'services/accesses/delete_service'

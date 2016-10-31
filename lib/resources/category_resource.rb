@@ -13,7 +13,7 @@ module WebmachineHALJSONAPIDemo
     end
 
     def delete_resource
-      @category.destroy
+      Categories::DeleteService.new(@category).execute
       true
     end
 
@@ -24,17 +24,8 @@ module WebmachineHALJSONAPIDemo
     end
 
     def from_json
-      return '' if update_category
-
-      render_error(400, @error)
-    end
-
-    def update_category
-      @category.update(params)
-      true
-    rescue StandardError => e
-      @error = e
-      nil
+      c = Categories::UpdateService.new(@category, params).execute
+      c.valid? ? '' : render_error(400, c)
     end
   end
 end
