@@ -18,8 +18,8 @@ module WebmachineHALJSONAPIDemo
       body.nil? ? {} : JSON.parse(body)
     end
 
-    def render_error(code, error)
-      response.body = error.extend(ErrorRepresenter).to_json
+    def render_error(code, object)
+      response.body = object.extend(ErrorRepresenter).to_json
       response.code = code
     end
   end

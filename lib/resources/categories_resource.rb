@@ -11,7 +11,7 @@ module WebmachineHALJSONAPIDemo
     def resource_exists?
       return true if request.method == 'POST'
 
-      @categories = Category.all
+      Category.all.count > 0
     end
 
     def post_is_create?
@@ -25,28 +25,21 @@ module WebmachineHALJSONAPIDemo
     private
 
     def to_json
-      filter_categories
+      @categories = fetch_categories
       extend(CategoriesRepresenter).to_json
     end
 
     def from_json
-      return '' if create_category
-
-      render_error(400, @error)
+      c = Categories::CreateService.new(params).execute
+      c.valid? ? '' : render_error(400, c)
     end
 
-    def filter_categories
-      name = request.query['name']
-      return if name.nil? || name.empty?
-
-      @categories = Category.where(Sequel.ilike(:name, "%#{name}%")).to_a
-    end
-
-    def create_category
-      @category = Category.create(params)
-    rescue StandardError => e
-      @error = e
-      nil
+    def fetch_categories
+      if request.query && request.query['name']
+        Categories::SearchService.new(request.query).execute
+      else
+        Category.all
+      end
     end
   end
 end

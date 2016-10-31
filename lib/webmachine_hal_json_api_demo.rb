@@ -35,3 +35,6 @@ require 'representers/reader_representer'
 require 'representers/readers_representer'
 require 'representers/reader_articles_representer'
 require 'representers/article_readers_representer'
+
+require 'services/categories/create_service'
+require 'services/categories/search_service'
