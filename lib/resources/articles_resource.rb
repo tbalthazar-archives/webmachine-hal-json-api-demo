@@ -38,8 +38,10 @@ module WebmachineHALJSONAPIDemo
     def fetch_articles
       if request.query && request.query['title']
         Articles::SearchService.new(request.query).execute
-      else
+      elsif category_id
         Article.where(category_id: category_id)
+      else
+        Article.all
       end
     end
 

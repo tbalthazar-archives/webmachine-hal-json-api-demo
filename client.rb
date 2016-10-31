@@ -25,6 +25,9 @@ class Client
       list: {
         prompt: 'Enter a category id:'
       },
+      search: {
+        prompt: 'Enter your search term:'
+      },
       new: {
         prompt: 'Enter an article name:'
       }
@@ -141,6 +144,13 @@ class Client
       end
     rescue StandardError => e
       handle_error(e)
+    end
+  end
+
+  def articles_search(term)
+    set_authorization_header
+    @api.articles.search(title: term).get.each do |c|
+      puts "- (#{c.id}) #{c.title}"
     end
   end
 

@@ -13,6 +13,7 @@ Feature: API
           "self": {"href": "http://example.org/"},
           "tokens": {"href": "http://example.org/tokens"},
           "categories": {"href": "http://example.org/categories"},
+          "articles": {"href": "http://example.org/articles"},
           "readers": {"href": "http://example.org/readers"}
         }
       }

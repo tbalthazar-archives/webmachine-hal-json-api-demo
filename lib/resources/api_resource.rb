@@ -17,6 +17,7 @@ module WebmachineHALJSONAPIDemo
           "self": {"href": "#{base_uri}"},
           "tokens": {"href": "#{base_uri}tokens"},
           "categories": {"href": "#{base_uri}categories"},
+          "articles": {"href": "#{base_uri}articles"},
           "readers": {"href": "#{base_uri}readers"}
         }
       })

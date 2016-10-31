@@ -4,6 +4,9 @@ module WebmachineHALJSONAPIDemo
 
     link(:self) { "/categories/#{@category.id}/articles" } if @category
     link(:self) { '/articles' } unless @category
+    link(:search) do
+      { href: '/articles{?title}', templated: true }
+    end
     collection :articles, getter: proc { @articles },
                           decorator: ArticleRepresenter,
                           embedded: true
