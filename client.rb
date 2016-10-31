@@ -3,6 +3,43 @@ require 'hyperresource'
 class Client
   ROOT = 'http://localhost:8080'.freeze
   MEDIA_TYPE = 'application/hal+json'.freeze
+  CMDS = {
+    help: {},
+    login: {},
+    categories: {
+      list: {},
+      search: {
+        arg: 'search term',
+        prompt: 'Enter your search term: '
+      },
+      create: {
+        arg: 'category name',
+        prompt: 'Enter a category name: '
+      }
+    }
+  }.freeze
+
+  def self.handle_input
+    command = ARGV[0]
+    subcommand = ARGV[1]
+
+    if !command_exists?(command) ||
+       (subcommand.nil? && subcommand?(command)) ||
+       (subcommand && !subcommand_exists?(command, subcommand))
+      show_help
+      exit(1)
+    end
+
+    msg = build_message(command, subcommand)
+    c = Client.new
+    prompt = prompt(command, subcommand)
+    if prompt
+      arg = get_input(prompt)
+      c.send(msg, arg)
+    else
+      c.send(msg)
+    end
+  end
 
   def initialize
     @api = HyperResource.new(
@@ -13,6 +50,10 @@ class Client
       }
     )
     @api.get
+  end
+
+  def help
+    self.class.show_help
   end
 
   def login
@@ -31,19 +72,75 @@ class Client
     puts "Token has been stored in #{token_path}"
   end
 
-  def categories
+  def categories_list
     set_authorization_header
-    puts '--- list of categories:'
-    @api.categories.categories.each do |c|
+    begin
+      puts '--- list of categories:'
+      @api.categories.categories.each do |c|
+        puts "- #{c.name}"
+      end
+    rescue StandardError => e
+      handle_error(e)
+    end
+  end
+
+  def categories_search(term)
+    set_authorization_header
+    @api.categories.search(name: term).get.each do |c|
       puts "- #{c.name}"
     end
   end
 
-  def search_category
-    set_authorization_header
-    @api.categories.search(name: 'tec').get.each do |c|
-      puts "- #{c.name}"
+  def self.command_exists?(command)
+    !command.nil? && !CMDS[command.to_sym].nil?
+  end
+
+  def self.subcommand_exists?(command, subcommand)
+    command_exists?(command) &&
+      !subcommand.nil? &&
+      !CMDS[command.to_sym][subcommand.to_sym].nil?
+  end
+
+  def self.subcommand?(command)
+    command_exists?(command) &&
+      !CMDS[command.to_sym].nil? &&
+      !CMDS[command.to_sym].empty?
+  end
+
+  def self.prompt(command, subcommand)
+    return nil unless subcommand_exists?(command, subcommand)
+
+    CMDS[command.to_sym][subcommand.to_sym].fetch(:prompt, nil)
+  end
+
+  def self.build_message(command, subcommand)
+    msg = command.to_s
+    msg += "_#{subcommand}" unless subcommand.nil? || subcommand.empty?
+    msg.strip
+  end
+
+  def self.show_help
+    puts 'Usage: ruby client.rb COMMAND [SUBCOMMAND]'
+    puts 'Available commands/subcommands:'
+    CMDS.keys.each do |command|
+      line = command.to_s
+      if CMDS[command].empty?
+        puts '- ' + line
+      else
+        CMDS[command].each do |subcommand, _|
+          line = "#{command} #{subcommand}"
+          puts '- ' + line
+        end
+      end
     end
+    puts
+    puts 'Example: ruby client.rb categories list'
+    puts
+  end
+
+  def self.get_input(prompt)
+    print prompt + ' '
+    STDIN.gets.chomp
   end
 
   private
@@ -53,28 +150,21 @@ class Client
   end
 
   def set_authorization_header
+    return unless File.exist?(token_path)
+
     token = File.open(token_path, &:gets)
     @api.headers = @api.headers.merge('Authorization' => "Bearer #{token}")
-  rescue
-    puts "Error while trying to read token in #{token_path}."
-    puts "Please try to run the 'login' command."
+  rescue StandardError => e
+    puts "Error: #{e.message}"
   end
-end
 
-AVAILABLE_CMDS = %w(help login categories search_category).freeze
-
-cmd = ARGV[0]
-if AVAILABLE_CMDS.include?(cmd)
-  if cmd == 'help'
-    puts 'help here'
-  else
-    begin
-      client = Client.new
-      client.send(cmd)
-    rescue StandardError => e
-      puts "Error: #{e.message}"
+  def handle_error(e)
+    if e.response.status == 401
+      puts 'Please login first. Run ruby client.rb help to learn how.'
+    else
+      puts "Unknown error: #{e.inspect}"
     end
   end
-else
-  puts "'#{cmd}' not in #{AVAILABLE_CMDS}"
 end
+
+Client.handle_input

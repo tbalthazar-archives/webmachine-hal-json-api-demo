@@ -9,5 +9,23 @@ Style/PredicateName:
 Metrics/LineLength:
   Exclude:
     - features/step_definitions/**
+Metrics/ClassLength:
+  Exclude:
+    - client.rb
+Metrics/AbcSize:
+  Exclude:
+    - client.rb
+Metrics/MethodLength:
+  Exclude:
+    - client.rb
+Metrics/MethodLength:
+  Exclude:
+    - client.rb
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - client.rb
+Metrics/PerceivedComplexity:
+  Exclude:
+    - client.rb
 Documentation:
   Enabled: false
