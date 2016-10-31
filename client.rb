@@ -37,6 +37,18 @@ class Client
       delete: {
         prompt: 'Enter an article id:'
       }
+    },
+    readers: {
+      list: {},
+      new: {
+        prompt: 'Enter an reader name:'
+      },
+      edit: {
+        prompt: 'Enter a new name for the first reader:'
+      },
+      delete: {
+        prompt: 'Enter a reader id:'
+      }
     }
   }.freeze
 
@@ -193,6 +205,48 @@ class Client
     end
   end
 
+  def readers_list
+    set_authorization_header
+    begin
+      @api.readers.readers.each do |r|
+        puts "- (#{r.id}) #{r.name}"
+      end
+    rescue StandardError => e
+      handle_error(e)
+    end
+  end
+
+  def readers_new(name)
+    set_authorization_header
+    begin
+      email = "#{name}@example.com"
+      _ = @api.readers.post(name: name, email: email)
+    rescue StandardError => e
+      handle_error(e)
+    end
+  end
+
+  def readers_edit(name)
+    set_authorization_header
+    begin
+      r = @api.readers.first
+      puts "(#{r.id}) #{r.name} will be renamed: #{name}"
+      r.put(name: name)
+    rescue StandardError => e
+      handle_error(e)
+    end
+  end
+
+  def readers_delete(id)
+    set_authorization_header
+    begin
+      r = @api.readers.readers.find { |rea| rea.id == id.to_i }
+      r.delete
+    rescue StandardError => e
+      handle_error(e)
+    end
+  end
+
   def self.command_exists?(command)
     !command.nil? && !CMDS[command.to_sym].nil?
   end
@@ -261,15 +315,19 @@ class Client
   end
 
   def handle_error(e)
-    if e.response.status == 401
-      puts 'Please login first. Run ruby client.rb help to learn how.'
-    elsif e.response.status == 400
-      body = JSON.parse(e.response.body)
-      puts "Error: #{body['message']}"
-    elsif e.response.status == 404
-      puts 'Not found.'
-    elsif e.response.status == 500
-      puts 'Server error :(.'
+    if e.class == HyperResource::ClientError
+      if e.response.status == 401
+        puts 'Please login first. Run ruby client.rb help to learn how.'
+      elsif e.response.status == 400
+        body = JSON.parse(e.response.body)
+        puts "Error: #{body['message']}"
+      elsif e.response.status == 404
+        puts 'Not found.'
+      elsif e.response.status == 500
+        puts 'Server error :(.'
+      else
+        puts "Unknown error: #{e.inspect}"
+      end
     else
       puts "Unknown error: #{e.inspect}"
     end
